@@ -1,4 +1,4 @@
-package service;
+package service.sort;
 
 import entity.CompositeItem;
 import entity.Item;
@@ -9,15 +9,15 @@ import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
-public class SortSentence //implements Comparator<Item>
-{
+public class SortSentence {
+
     //        @Override
 //        public int compare(CompositeItem o1, CompositeItem o2) {
 //            return o1.getItems().size() - o2.getItems().size();
 //        }
-    public static void getPartsByNumberOfItems(CompositeItem composite) {
-        List<Item> words = composite.getItems();
-        words.sort(new Comparator() {
+    public static void sortPartsByNumberOfItems(CompositeItem composite) {
+        List<Item> items = composite.getItems();
+        items.sort(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
                 if (o1 instanceof CompositeItem && o2 instanceof CompositeItem) {

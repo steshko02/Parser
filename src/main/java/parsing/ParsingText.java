@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 
 public class ParsingText {
 
+
+    //перенечти в num
     public static final String REGEX_LISTING_OR_PARAGRAPHS  =
             "(Start listing(\\s*.\\s*)+?\\n?End listing)|.*[A-Za-zА-Яа-я]+\\s*.*";
 
@@ -25,55 +27,51 @@ public class ParsingText {
 
 
     public CompositeItem listingParse(String text){
-        CompositeItem textItems = new CompositeItem(Elements.PARAGRAPH);
+        CompositeItem textItems = new CompositeItem(Elements.TEXT);
         Pattern pattern =  Pattern.compile(REGEX_LISTING_OR_PARAGRAPHS);
         Matcher matcher = pattern.matcher(text);
         String pr="";
         while (matcher.find()){
             pr=matcher.group();
+            Item part;
             if(Pattern.matches(REGEX_LISTING,pr)){
-                TextItem code = new TextItem(pr,Elements.CODE);
-                textItems.getItems().add(code);
+                part = new TextItem(pr,Elements.CODE);
             }
             else {
-                CompositeItem compositeItem = new CompositeItem(Elements.PARAGRAPH);
-                compositeItem.getItems().add(parseToSentences(pr));
-                textItems.getItems().add(compositeItem);
+                part = parseToSentences(pr);
             }
+            textItems.getItems().add(part);
         }
         return  textItems;
     }
 
     public Item parseToSentences(String text) {
-        CompositeItem paragraphsItems = new CompositeItem(Elements.SENTENCE);
+        CompositeItem paragraphsItems = new CompositeItem(Elements.PARAGRAPH); //
         Pattern pattern =  Pattern.compile(REGEX_SENTENCE);
         Matcher matcher = pattern.matcher(text);
         String snt= "";
         while (matcher.find()){
             snt=matcher.group();
-            CompositeItem words = new CompositeItem(Elements.SENTENCE);
-            words.getItems().add(parseToWords(snt));
-            paragraphsItems.getItems().add(words);
+            paragraphsItems.getItems().add(parseToWords(snt));
         }
         return paragraphsItems;
     }
 
-    // СДЕЛАТЬ ЧТОБЫ ОЛИЧАЛИСЬ ЗНАКИ ПРЕПИНАНИЯ И СЛОВА
     public Item parseToWords(String text) {
-        CompositeItem words = new CompositeItem(Elements.WORD);
+        CompositeItem words = new CompositeItem(Elements.SENTENCE);
         Pattern pattern =  Pattern.compile(REGEX_WORD_OR_PUNCTUATION);
         Matcher matcher = pattern.matcher(text);
         String wd= "";
         while (matcher.find()){
             wd=matcher.group();
+            TextItem item;
             if(Pattern.matches(REGEX_PUNCTUATION,wd)){
-                TextItem pn =  new TextItem(wd,Elements.PUNCTUATION);
-                words.getItems().add(pn);
+                item = new TextItem(wd,Elements.PUNCTUATION);
             }
             else {
-                TextItem word =  new TextItem(wd,Elements.WORD);
-                words.getItems().add(word);
+                item =  new TextItem(wd,Elements.WORD);
             }
+            words.getItems().add(item);
 
         }
         return words;

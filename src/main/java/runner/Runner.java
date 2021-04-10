@@ -4,9 +4,11 @@ import entity.CompositeItem;
 import entity.Item;
 import entity.Text;
 import parsing.ParsingText;
+import service.logic.Service;
+import service.sort.SortSentence;
 import text_elements.Elements;
 
-import java.util.List;
+import java.util.*;
 
 public class Runner {
 
@@ -18,21 +20,11 @@ public class Runner {
         ParsingText parsingText = new ParsingText();
 
         CompositeItem ci = parsingText.listingParse(text1.getText()); // параграфы
-       System.out.println(ci);
 
-        CompositeItem nn = new CompositeItem(Elements.PUNCTUATION);
-        List<Item> ss = nn.getItemsWithType(Elements.PARAGRAPH,ci);
-        ss.remove(1);
-        System.out.println(ss);
-        List<Item> s1s = nn.getItemsWithType(Elements.WORD,((CompositeItem) ci.getChild(0)));
-        //System.out.println(ci.getChild(0).getChild(0).toString());
-        s1s.remove(0);
-        ci.setItems(ss);
+          Service service = new Service();
 
-        if(ci.getChild(0).getChild(0) instanceof CompositeItem) {
-            ((CompositeItem) ci.getChild(0).getChild(0)).setItems(s1s);
-        }
+        service.deleteWord("алгоритм",ci);
         System.out.println(ci);
-//создать методы, из которых можно получить по типу значения через foreach
+
     }
 }

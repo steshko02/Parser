@@ -3,12 +3,14 @@ package entity;
 import lombok.Data;
 import text_elements.Elements;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 public class CompositeItem implements Item {
-    private List<Item> items = new LinkedList<>();
+    private List<Item> items = new ArrayList<>();
     private Elements type;
 
     public CompositeItem(Elements type) {
@@ -19,8 +21,9 @@ public class CompositeItem implements Item {
     public String toString() {
         StringBuilder res= new StringBuilder();
         for (Item str : items){
-            if(this.type == Elements.PARAGRAPH){
-                 res.append("\n\t").append(str.toString()).append("\n");
+           // res.append("\t\n");
+            if(this.type == Elements.TEXT){
+                res.append("\t").append(str.toString()).append("\n");
             }
             else if(this.type == Elements.SENTENCE){
                 res.append(str.toString());
@@ -40,9 +43,10 @@ public class CompositeItem implements Item {
         return items.get(i);
     }
 
-    public  List<Item> getItemsWithType(Elements type,CompositeItem compositeItem){
-        List<Item> result = new LinkedList<>();
 
+    //делать проверки (МОЖНО В СЕРВИС ЗАСУНУТЬ)
+    public static List<Item> getItemsByType(Elements type,CompositeItem compositeItem){
+        List<Item> result = new LinkedList<>();
                 for (Item item : compositeItem.getItems()) {
 
                     if (item instanceof TextItem) {
@@ -51,18 +55,29 @@ public class CompositeItem implements Item {
                         }
                     }
                     if (item instanceof CompositeItem) {
-                        for (Item item1 : ((CompositeItem) item).getItems()) {
-
-                            if (item.getType().equals(type)) {
-                                result.add(item1);
-                            } else {
-                                result.addAll(getItemsWithType(type, (CompositeItem) item1));
-                            }
+                        if (item.getType().equals(type)) {
+                            result.add(item);
+                        } else {
+                            result.addAll(getItemsByType(type, (CompositeItem) item));
                         }
                     }
                 }
         return result;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CompositeItem that = (CompositeItem) o;
+        return Objects.equals(items, that.items) && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(items, type);
+    }
+
 }
 
 

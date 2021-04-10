@@ -4,6 +4,7 @@ import lombok.Data;
 import text_elements.Elements;
 
 import java.util.List;
+import java.util.Objects;
 
 @Data
 public class TextItem implements Item {
@@ -31,5 +32,18 @@ public class TextItem implements Item {
     @Override
     public Item getChild(int i) {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TextItem textItem = (TextItem) o;
+        return Objects.equals(context, textItem.context) && type == textItem.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(context, type);
     }
 }
