@@ -1,17 +1,15 @@
 package service.logic;
 
 import entity.CompositeItem;
-import entity.Item;
 import entity.TextItem;
 import service.sort.SortSentence;
 import text_elements.Elements;
 
 public class Service {
 
-    public CompositeItem getSentenceByWord(CompositeItem ci){
-        if(ci == null) throw new NullPointerException("");
-
-        CompositeItem compositeItem =  new CompositeItem(Elements.SENTENCE);
+    public CompositeItem getSentenceByWordCount(CompositeItem ci){
+        if(ci == null) throw new NullPointerException("Null object");
+        CompositeItem compositeItem =  new CompositeItem();
         compositeItem.setItems(CompositeItem.getItemsByType(Elements.SENTENCE, ci));
         SortSentence.sortPartsByNumberOfItems(compositeItem);
 

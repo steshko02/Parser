@@ -3,7 +3,6 @@ package entity;
 import lombok.Data;
 import text_elements.Elements;
 
-import java.util.List;
 import java.util.Objects;
 
 @Data

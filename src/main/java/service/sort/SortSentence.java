@@ -2,6 +2,7 @@ package service.sort;
 
 import entity.CompositeItem;
 import entity.Item;
+import entity.TextItem;
 import lombok.extern.slf4j.Slf4j;
 import text_elements.Elements;
 
@@ -11,11 +12,12 @@ import java.util.List;
 @Slf4j
 public class SortSentence {
 
-    //        @Override
-//        public int compare(CompositeItem o1, CompositeItem o2) {
-//            return o1.getItems().size() - o2.getItems().size();
-//        }
     public static void sortPartsByNumberOfItems(CompositeItem composite) {
+
+        if(composite.getItems() == null){
+            log.error("Null object");
+            throw  new NullPointerException("Null Object");
+        }
         List<Item> items = composite.getItems();
         items.sort(new Comparator() {
             @Override
@@ -27,7 +29,10 @@ public class SortSentence {
                     Integer i2 = c2.getItems().size();
                     return i1.compareTo(i2);
                 }
-                return 0;
+                else {
+                    log.error("Is not CompositeItem list.");
+                    throw new ClassCastException("");
+                }
             }
         });
     }

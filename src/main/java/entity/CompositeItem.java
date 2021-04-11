@@ -1,10 +1,10 @@
 package entity;
 
+import com.sun.org.apache.xpath.internal.objects.XNull;
 import lombok.Data;
 import text_elements.Elements;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,11 +17,14 @@ public class CompositeItem implements Item {
         this.type = type;
     }
 
+    public CompositeItem() {
+
+    }
+
     @Override
     public String toString() {
         StringBuilder res= new StringBuilder();
         for (Item str : items){
-           // res.append("\t\n");
             if(this.type == Elements.TEXT){
                 res.append("\t").append(str.toString()).append("\n");
             }
@@ -40,19 +43,19 @@ public class CompositeItem implements Item {
 
     @Override
     public Item getChild(int i) {
+        if(i>= this.items.size()) throw new IndexOutOfBoundsException("");
         return items.get(i);
     }
 
 
-    //делать проверки (МОЖНО В СЕРВИС ЗАСУНУТЬ)
     public static List<Item> getItemsByType(Elements type,CompositeItem compositeItem){
-        List<Item> result = new LinkedList<>();
+        if(compositeItem== null || type == null) throw new NullPointerException("Null object");
+
+        List<Item> result = new ArrayList<>();
                 for (Item item : compositeItem.getItems()) {
 
-                    if (item instanceof TextItem) {
-                        if (item.getType().equals(type)) {
-                            result.add(item);
-                        }
+                    if (item instanceof TextItem && item.getType().equals(type)) {
+                        result.add(item);
                     }
                     if (item instanceof CompositeItem) {
                         if (item.getType().equals(type)) {
