@@ -6,9 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import parsing.ParsingText;
 import service.FileWorker.FileReader;
 import service.logic.Service;
-import service.sort.SortSentence;
-import text_elements.Elements;
-
 @Slf4j
 public class Runner {
 

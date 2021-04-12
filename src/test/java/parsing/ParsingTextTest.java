@@ -7,17 +7,20 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import text_elements.Elements;
 
+import java.util.ArrayList;
+
 
 public class ParsingTextTest {
 
     public static String testText;
     public static ParsingText parser = new ParsingText();
     public static CompositeItem text;
-    public static final CompositeItem paragraph = new CompositeItem(Elements.PARAGRAPH);
+    public static  CompositeItem paragraph ;
     public static  CompositeItem sentence;
 
     @BeforeClass
     public static void init(){
+       // paragraph.setItems(new ArrayList<>());
         sentence = new CompositeItem(Elements.SENTENCE);
 
         sentence.getItems().add(new TextItem("This",Elements.WORD));
@@ -42,6 +45,7 @@ public class ParsingTextTest {
     }
     @Test
     public void parseTextToParagraphs() {
+        paragraph = new CompositeItem(Elements.PARAGRAPH);
         testText = "\tThis is text.";
         CompositeItem expected = parser.listingParse(testText);
 
@@ -53,17 +57,20 @@ public class ParsingTextTest {
     }
     @Test
     public void parseTextToSentences() {
+
+        paragraph = new CompositeItem(Elements.PARAGRAPH);
         testText = "This is text.";
         CompositeItem expected = parser.parseToSentences(testText);
-
+       // paragraph.setItems();
         paragraph.getItems().add(sentence);
 
         Assert.assertEquals(expected,paragraph);
     }
     @Test
     public void parseTextToWord() {
+        paragraph = new CompositeItem();
         testText = "This is text.";
-        CompositeItem expected = parser.parseToSentences(testText);
+        CompositeItem expected = parser.parseToWords(testText);
         Assert.assertEquals(expected,sentence);
     }
 }

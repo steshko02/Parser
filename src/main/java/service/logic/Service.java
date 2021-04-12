@@ -9,7 +9,7 @@ public class Service {
 
     public CompositeItem getSentenceByWordCount(CompositeItem ci){
         if(ci == null) throw new NullPointerException("Null object");
-        CompositeItem compositeItem =  new CompositeItem();
+        CompositeItem compositeItem =  new CompositeItem(Elements.PARAGRAPH);
         compositeItem.setItems(CompositeItem.getItemsByType(Elements.SENTENCE, ci));
         SortSentence.sortPartsByNumberOfItems(compositeItem);
 

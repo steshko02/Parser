@@ -4,7 +4,9 @@ import entity.CompositeItem;
 import entity.Item;
 import entity.TextItem;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.MockitoAnnotations;
 import text_elements.Elements;
 
 import java.util.ArrayList;
@@ -12,9 +14,14 @@ import java.util.List;
 
 public class ServiceTest {
 
-    private static final CompositeItem item = new CompositeItem();
+    private static  CompositeItem item;
 
     private final Service service = new Service();
+
+    @Before
+    public void setUp() throws  Exception{
+        item = new CompositeItem(Elements.PARAGRAPH);
+    }
 
     @Test(expected = NullPointerException.class)
     public void testGetSentenceByWordNullPointerException() {
@@ -47,7 +54,7 @@ public class ServiceTest {
         s2.setItems(testList1);
         s3.setItems(testList2);
 
-        CompositeItem actual = new CompositeItem(Elements.SENTENCE);
+        CompositeItem actual = new CompositeItem(Elements.PARAGRAPH);
         actual.getItems().add(s3);
         actual.getItems().add(s2);
         actual.getItems().add(s1);
@@ -69,7 +76,7 @@ public class ServiceTest {
         testList.add(new TextItem("21213", Elements.WORD));
         testList.add(new TextItem("2112413", Elements.WORD));
 
-        CompositeItem expected = new CompositeItem();
+        CompositeItem expected = new CompositeItem(Elements.PARAGRAPH);
         expected.setItems(testList);
 
         service.deleteWord("213", expected);

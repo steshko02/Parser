@@ -24,18 +24,21 @@ public class CompositeItem implements Item {
     @Override
     public String toString() {
         StringBuilder res= new StringBuilder();
+
         for (Item str : items){
-            if(this.type == Elements.TEXT){
-                res.append("\t").append(str.toString()).append("\n");
-            }
-            else if(this.type == Elements.SENTENCE){
-                res.append(str.toString());
-            }
-            else if(this.type == Elements.WORD) {
-                res.append(str.toString());
-            }
-            else  {
-                res.append(str.toString());
+            switch (this.type) {
+                case SENTENCE:
+                    res.append(str.toString());
+                    break;
+                case TEXT:
+                    res.append("\t").append(str.toString()).append("\n");
+                    break;
+                case WORD:
+                    res.append(str.toString());
+                    break;
+                default:
+                    res.append(str.toString());
+                    break;
             }
         }
         return res+"";
@@ -83,4 +86,15 @@ public class CompositeItem implements Item {
 
 }
 
-
+//            if(this.type == Elements.TEXT){
+//                res.append("\t").append(str.toString()).append("\n");
+//            }
+//            else if(this.type == Elements.SENTENCE){
+//                res.append(str.toString());
+//            }
+//            else if(this.type == Elements.WORD) {
+//                res.append(str.toString());
+//            }
+//            else  {
+//                res.append(str.toString());
+//            }
